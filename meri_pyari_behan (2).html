@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meri Pyari Behan - A Digital Gift</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Confetti JS for Gift Section -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'soft-pink': '#ffe4e8',
+                        'rose-gold': '#b76e79',
+                        'purple-light': '#eaddff',
+                        'theme-dark': '#4a3f45',
+                    },
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'dancing': ['"Dancing Script"', 'cursive'],
+                    },
+                    backgroundImage: {
+                        'theme-gradient': 'linear-gradient(135deg, #fff0f3 0%, #f3e5f5 50%, #fdfbfb 100%)',
+                        'card-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,240,245,0.7) 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #fffafb; overflow-x: hidden; color: #4a3f45; }
+        .glass { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(183, 110, 121, 0.1); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .particle { position: fixed; top: -10vh; z-index: 1; pointer-events: none; user-select: none; animation: fall linear forwards; }
+        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg) scale(0.8); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(360deg) scale(1.2); opacity: 0; } }
+        .float-anim { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+        .text-gradient { background: linear-gradient(to right, #b76e79, #9c27b0, #ff8a80); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 5s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
+        .gift-container { position: relative; cursor: pointer; transition: transform 0.3s ease; }
+        .gift-container:hover { transform: scale(1.05); }
+        .gift-box { font-size: 8rem; animation: shake 2s infinite ease-in-out; filter: drop-shadow(0px 10px 15px rgba(183, 110, 121, 0.3)); transition: all 0.5s ease; }
+        .gift-container.opened .gift-box { animation: none; opacity: 0; transform: scale(0.5); pointer-events: none; }
+        .gift-message { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); opacity: 0; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; }
+        .gift-container.opened .gift-message { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 50% { transform: rotate(0deg); } 75% { transform: rotate(-5deg); } }
+        .cursor { display: inline-block; width: 2px; height: 1em; background-color: #b76e79; animation: blink 0.75s step-end infinite; vertical-align: text-bottom; margin-left: 4px; }
+        @keyframes blink { from, to { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="font-poppins bg-theme-gradient text-theme-dark antialiased">
+    <div id="particle-container"></div>
+
+    <section id="welcome" class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-20">
+        <!-- Heart & Celebration Stickers -->
+        <div class="absolute top-10 left-10 md:left-32 float-anim opacity-90"><img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="heart" class="w-24 md:w-32 drop-shadow-lg"></div>
+        <div class="absolute bottom-10 right-10 md:right-32 float-anim opacity-90" style="animation-delay: -3s;"><img src="https://cdn-icons-png.flaticon.com/512/616/616493.png" alt="celebration" class="w-20 md:w-28 drop-shadow-lg"></div>
+        
+        <div class="z-10 text-center max-w-4xl mx-auto glass p-8 md:p-16 rounded-3xl reveal">
+            <h1 class="font-dancing text-6xl md:text-8xl lg:text-9xl mb-6 text-gradient font-bold drop-shadow-sm">💖 Meri Pyari Behan 💖</h1>
+            <div class="h-10 md:h-12 mt-4 flex justify-center items-center"><p id="typing-text" class="text-xl md:text-3xl font-playfair italic text-rose-gold"></p><span class="cursor"></span></div>
+            <p class="mt-8 text-sm md:text-base tracking-widest uppercase text-gray-500 font-semibold animate-pulse">Scroll to see your gift <i class="fas fa-chevron-down ml-2"></i></p>
+        </div>
+    </section>
+
+    <section id="wishes" class="py-24 px-4 relative">
+        <div class="max-w-3xl mx-auto">
+            <div class="glass rounded-3xl p-8 md:p-14 relative reveal shadow-2xl border-t-4 border-t-white">
+                <i class="fas fa-quote-left absolute top-8 left-8 text-4xl text-rose-gold opacity-20"></i>
+                <i class="fas fa-quote-right absolute bottom-8 right-8 text-4xl text-rose-gold opacity-20"></i>
+                <div class="text-center relative z-10">
+                    <p class="text-xl md:text-3xl font-playfair leading-relaxed text-theme-dark mb-10">Allah Pak aap ko hamesha khush rakhe,<br><br>muskurahat aap ke chehre se kabhi kam na ho,<br><br>aur zindagi mein bohat si khushiyan naseeb hon.<br><br><span class="text-rose-gold font-bold">Aaj ka din aap ke liye bohat khoobsurat ho. 💖</span></p>
+                    <div class="flex justify-end items-center mt-12">
+                        <div class="h-px bg-rose-gold w-16 mr-4 opacity-50"></div>
+                        <p class="font-dancing text-3xl md:text-4xl text-rose-gold font-bold">— Aap Ka Chhota Bhai</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 px-4 bg-white/30 backdrop-blur-sm border-y border-white/40">
+        <div class="max-w-md mx-auto text-center">
+            <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-10 text-gradient inline-block">Happy Birthday Peyari Behn</h2>
+            <div class="glass p-3 rounded-2xl reveal mx-auto relative shadow-2xl">
+                <div class="rounded-xl overflow-hidden shadow-inner aspect-[4/5] bg-gray-100 relative">
+                    <img src="https://i.ibb.co/ZzKPrXhF/cb8900f0ced014fc713bdc43e217ab6d.jpg" alt="Slide 1" class="slide-img absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                    <img src="https://i.ibb.co/sdkhQyQx/5bb232d4b92e18fcf1c307c060925a37.jpg" alt="Slide 2" class="slide-img absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                    <img src="https://i.ibb.co/B5CkyPDt/44b424a87b10aa86b39cb3f4f547f402.jpg" alt="Slide 3" class="slide-img absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="surprise" class="py-32 px-4 bg-gradient-to-b from-transparent to-soft-pink/50 border-t border-white/50">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h2 class="font-playfair text-4xl md:text-5xl font-bold mb-8 text-theme-dark">I have a surprise for you...</h2>
+            <p class="text-lg text-gray-600 mb-12">Tap the gift box to open it!</p>
+            <div id="gift" class="gift-container w-64 h-64 mx-auto">
+                <div class="gift-box">🎁</div>
+                <div class="gift-message glass p-8 rounded-3xl w-[300px] md:w-[400px] shadow-2xl border-2 border-white">
+                    <h3 class="font-dancing text-4xl text-rose-gold font-bold mb-4">Surprise! 🎉</h3>
+                    <p class="font-poppins text-gray-700 text-lg">Just a little virtual reminder that you are loved beyond words. Have the most amazing day! 🌸✨</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-16 text-center px-4">
+        <div class="max-w-2xl mx-auto reveal">
+            <div class="inline-block p-4 rounded-full bg-white/50 backdrop-blur-sm shadow-sm mb-6"><i class="fas fa-gem text-2xl text-rose-gold"></i></div>
+            <p class="font-playfair text-xl md:text-2xl text-gray-600 italic">"Brothers and sisters are as close as hands and feet."</p>
+            <div class="mt-8"><p class="font-dancing text-3xl text-rose-gold font-bold">With lots of love,</p><p class="font-poppins text-gray-500 text-sm mt-2 tracking-widest uppercase">Your Brother</p></div>
+        </div>
+    </footer>
+
+    <script>
+        const textToType = '"Chhote Bhai Ki Taraf Se"';
+        const typingElement = document.getElementById('typing-text');
+        let index = 0;
+        function typeWriter() { if (index < textToType.length) { typingElement.innerHTML += textToType.charAt(index); index++; setTimeout(typeWriter, 100); } }
+        setTimeout(typeWriter, 1000);
+        function reveal() { var reveals = document.querySelectorAll(".reveal"); for (var i = 0; i < reveals.length; i++) { var windowHeight = window.innerHeight; var elementTop = reveals[i].getBoundingClientRect().top; if (elementTop < windowHeight - 100) { reveals[i].classList.add("active"); } } }
+        window.addEventListener("scroll", reveal); reveal();
+        const container = document.getElementById('particle-container');
+        const particles = ['🌸', '💖', '✨', '🤍', '🦋'];
+        function createParticle() { const particle = document.createElement('div'); particle.classList.add('particle'); particle.innerText = particles[Math.floor(Math.random() * particles.length)]; particle.style.left = Math.random() * 100 + 'vw'; particle.style.fontSize = (Math.random() * 15 + 10) + 'px'; particle.style.animationDuration = (Math.random() * 5 + 5) + 's'; container.appendChild(particle); setTimeout(() => { particle.remove(); }, 10000); }
+        setInterval(createParticle, 400);
+        const slides = document.querySelectorAll('.slide-img');
+        let currentSlide = 0;
+        if (slides.length > 0) { setInterval(() => { slides[currentSlide].classList.remove('opacity-100'); slides[currentSlide].classList.add('opacity-0'); currentSlide = (currentSlide + 1) % slides.length; slides[currentSlide].classList.remove('opacity-0'); slides[currentSlide].classList.add('opacity-100'); }, 2000); }
+        const giftContainer = document.getElementById('gift');
+        giftContainer.addEventListener('click', function() { if (!this.classList.contains('opened')) { this.classList.add('opened'); var end = Date.now() + (2 * 1000); var colors = ['#ffe4e8', '#b76e79', '#eaddff', '#ffffff']; (function frame() { confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: colors }); confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: colors }); if (Date.now() < end) { requestAnimationFrame(frame); } }()); } });
+    </script>
+</body>
+</html>
